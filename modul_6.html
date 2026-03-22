@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Moduł 6 - Listy</title>
+<meta name="description" content="Szczegóły modułu 6 kursu Python." />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#071022; --muted:#9aa4b2; --accent:#7c3aed; --accent-2:#06b6d4; --radius:12px; --max-width:1100px;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,Arial;
+    background:linear-gradient(180deg,#071022 0%, #071a2a 60%);
+    color:#e6eef6;padding:28px;display:flex;justify-content:center;
+  }
+  .container{width:100%;max-width:var(--max-width)}
+  header{display:flex;align-items:center;gap:14px;margin-bottom:20px}
+  .logo{width:52px;height:52px;border-radius:10px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center;font-weight:800;font-size:18px;box-shadow:0 8px 26px rgba(124,58,237,0.16)}
+  main{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:var(--radius);padding:28px;box-shadow:0 10px 30px rgba(2,6,23,0.6);border:1px solid rgba(255,255,255,0.03)}
+  h1{margin:0 0 12px 0;font-size:24px}
+  p.lead{color:var(--muted);margin:0 0 18px 0}
+  .content{margin-top:20px;line-height:1.6}
+  .images{margin-top:24px;display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
+  .images img{width:100%;border-radius:12px;object-fit:cover;box-shadow:0 6px 18px rgba(2,6,23,0.45)}
+  .back{margin-top:24px;display:inline-block;color:var(--muted);text-decoration:none;border:1px solid rgba(255,255,255,0.03);padding:8px 12px;border-radius:10px}
+  @media (max-width:640px){ body{padding:18px} }
+  #matrix-bg{position:fixed;top:0;left:0;width:100%;height:100%;z-index:-1;background:#071022;pointer-events:none}
+  pre.note-block{background:rgba(255,255,255,0.01);border-radius:10px;padding:16px;color:#e6eef6;overflow:auto;font-family:monospace;white-space:pre-wrap}
+  .hint{color:var(--muted);margin-top:12px}
+  .section-title{font-weight:600;margin-top:12px;margin-bottom:8px}
+</style>
+</head>
+<body>
+  <div class="container" role="main">
+    <header>
+      <div class="logo" aria-hidden="true">F</div>
+      <div>
+        <div style="font-weight:700">Kurs Python</div>
+        <div class="muted" style="font-size:13px">Moduł 6 - Listy</div>
+      </div>
+      <nav style="margin-left:auto">
+        <a href="kurs.html" class="back" aria-label="Powrót do listy modułów">Powrót</a>
+      </nav>
+    </header>
+
+    <main aria-labelledby="modulTitle">
+      <h1 id="modulTitle">Moduł 6 - Listy</h1>
+      <p class="lead">Podstawy pracy z listami w Pythonie - tworzenie, indeksowanie, modyfikacja i operacje.</p>
+
+      <div class="content">
+        <p class="section-title">Wprowadzenie</p>
+        <p>Listy w Pythonie służą do przechowywania danych. Tworzymy je za pomocą nawiasów kwadratowych <code>[ ]</code>.</p>
+
+        <pre class="note-block" aria-label="Przykład listy">
+Przykład:
+lista = [1, 2, 3, 'Baba Jaga', 'patrzy']       # możemy też stworzyć pustą listę: x = []
+
+W listach możemy przechowywać różne typy danych np. ciągi znaków, liczby, boole: (True, False)
+        </pre>
+
+        <p class="section-title">Indeksowanie</p>
+        <pre class="note-block" aria-label="Indeksowanie">
+WAŻNE!!! 
+Indeks od lewej zaczyna się od zera, a od prawej od -1.Zapisujemy indeks w nawiasach kwadratowych.
+
+Lista = [ 1,  2,  3,  'Baba Jaga',  'patrzy' ]
+         [0] [1]  [2]      [3]           [4]
+         [-5][-4] [-3]    [-2]          [-1]
+
+Podsumowywując:
+
+lista[0] -> 1
+lista[1] -> 2
+lista[-1] -> 'patrzy'
+lista[4] -> 'patrzy'
+
+Czyli lista[0] wyświetli nam jedynkę, lista[1] da nam dwójkę,
+ ale ‘patrzy’ będzie miało zarówno [-1] jak i [4].
+        </pre>
+
+        <p class="section-title">Wyświetlanie i iteracja</p>
+        <pre class="note-block" aria-label="Wyświetlanie listy">
+Wyświetlić listę możemy za pomocą polecenia:
+
+print(lista)    # co wyświetli: [1, 2, 3, 'Baba Jaga', 'patrzy']
+
+lub za pomocą pętli:
+
+for k in lista:
+    print(k)
+
+Da nam to:
+1
+2
+3
+Baba Jaga
+patrzy
+        </pre>
+
+        <p class="section-title">Dodawanie elementów</p>
+        <pre class="note-block" aria-label="Dodawanie elementów">
+Do listy możemy dodawać rzeczy używając polecenia .append:
+lista.append('mam cię')   # dopisze to na końcu listy
+
+UWAGA! Tym poleceniem dodajemy po jednej wartości naraz.
+
+Przykład:
+
+l = [1, 3, 4, 5]
+l.append(6)
+print(l)   # [1, 3, 4, 5, 6]
+
+Możemy też dodać element w odpowiednie miejsce: .insert(indeks, wartość)
+
+l.insert(1, 2)   # w indeks[1] da 2 i reszta przesunie się o 1
+                 # l = [1, 2, 3, 4, 5, 6]
+
+        </pre>
+
+        <p class="section-title">Usuwanie elementów</p>
+        <pre class="note-block" aria-label="Usuwanie elementów">
+l.remove(1)   # usunie  wartości 1 z listy
+l.pop()       # usuwa ostatni element 
+l.pop(2) / del l[2]     # usuwa element o indeksie 2 (reszta się przesunie)
+del l[2]      # usuwa element o indeksie 2 (reszta się przesunie)
+del l[:]      # usuwa zawartość listy, ale nie samą listę
+del l         # usuwa listę wraz z zawartością
+        </pre>
+
+        <p class="section-title">Przydatne funkcje i operacje</p>
+        <pre class="note-block" aria-label="Funkcje list">
+Funkcja max i min przyda się do sprawdzania największej lub najmniejszej wartości:
+
+liczby = [1, 2, 333, 4, 5, 6, 7, 88, 9]
+x = max(liczby)
+print(x)  # wyświetli 333
+
+l.sort()    # posortuje listę rosnąco ([1,4,5,3,2] → → → [1,2,3,4,5])
+l.reverse() # odwróci kolejność elementów ([1,4,5,3,2] → → → [2,3,5,4,1])
+
+Długość listy sprawdzamy poleceniem len:
+
+y = len(lista)
+print(y)  # wypisze ilość elementów w liście ,nie ostatni indeks
+
+Listy możemy do siebie dodawać (łączyć):
+
+lista3 = lista1 + lista2
+
+Możemy też zmieniać wartości:
+
+lista[1] = 'nie wiem co'
+        </pre>
+
+        <p class="section-title">Przykład wykorzystania listy</p>
+        <pre class="note-block" aria-label="Przykład użycia listy">
+dane = []   #definicja pustej listy o nazwie dane
+
+imie=str(input('Podaj jak masz na imię : '))
+nazwisko=str(input('Podaj jak masz na nazwisko : '))
+wiek=str(input('Podaj jak masz lat : '))
+
+dane.append(imie)
+dane.append(nazwisko) #dodajemy do list osobno nowe rzeczy !
+dane.append(int(wiek))
+dlugosc = len(dane) #funkcja len wyświetla długość listy
+          
+print(dane)
+
+
+
+        </pre>
+
+        <p class="hint">Przetestuj powyższe przykłady w interpreterze Pythona. Zmieniaj wartości i obserwuj, jak zmienia się zawartość listy oraz indeksy.</p>
+      </div>
+
+      <section class="images" aria-label="Screenshoty i ilustracje">
+        <img src="" alt="">
+        <img src="" alt="">
+      </section>
+    </main>
+  </div>
+
+  <canvas id="matrix-bg"></canvas>
+  <script>
+    const canvas = document.getElementById('matrix-bg');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    const letters = '01<>[]{};:+=-*/Python';
+    const fontSize = 14;
+    let columns = canvas.width / fontSize;
+    const drops = Array.from({length: columns}, () => 1);
+
+    function draw() {
+      ctx.fillStyle = 'rgba(7,16,34,0.25)';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = '#7c3aed';
+      ctx.font = fontSize + 'px monospace';
+      for (let i = 0; i < drops.length; i++) {
+        const text = letters[Math.floor(Math.random() * letters.length)];
+        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
+        drops[i]++;
+      }
+    }
+    setInterval(draw, 80);
+    window.addEventListener('resize', () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      columns = canvas.width / fontSize;
+      drops.length = 0;
+      for (let i = 0; i < columns; i++) drops[i] = 1;
+    });
+  </script>
+</body>
+</html>

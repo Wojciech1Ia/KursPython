@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Moduł 9 - Żółw</title>
+<meta name="description" content="Szczegóły modułu 9 kursu Python." />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#071022; --muted:#9aa4b2; --accent:#7c3aed; --accent-2:#06b6d4; --radius:12px; --max-width:1100px;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,Arial;
+    background:linear-gradient(180deg,#071022 0%, #071a2a 60%);
+    color:#e6eef6;padding:28px;display:flex;justify-content:center;
+  }
+  .container{width:100%;max-width:var(--max-width)}
+  header{display:flex;align-items:center;gap:14px;margin-bottom:20px}
+  .logo{width:52px;height:52px;border-radius:10px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center;font-weight:800;font-size:18px;box-shadow:0 8px 26px rgba(124,58,237,0.16)}
+  main{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:var(--radius);padding:28px;box-shadow:0 10px 30px rgba(2,6,23,0.6);border:1px solid rgba(255,255,255,0.03)}
+  h1{margin:0 0 12px 0;font-size:24px}
+  p.lead{color:var(--muted);margin:0 0 18px 0}
+  .content{margin-top:20px;line-height:1.6}
+  .images{margin-top:24px;display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
+  .images img{width:100%;border-radius:12px;object-fit:cover;box-shadow:0 6px 18px rgba(2,6,23,0.45)}
+  .back{margin-top:24px;display:inline-block;color:var(--muted);text-decoration:none;border:1px solid rgba(255,255,255,0.03);padding:8px 12px;border-radius:10px}
+  @media (max-width:640px){ body{padding:18px} }
+  #matrix-bg{position:fixed;top:0;left:0;width:100%;height:100%;z-index:-1;background:#071022;pointer-events:none}
+  pre.note-block{background:rgba(255,255,255,0.01);border-radius:10px;padding:16px;color:#e6eef6;overflow:auto;font-family:monospace;white-space:pre-wrap}
+  .hint{color:var(--muted);margin-top:12px}
+  .section-title{font-weight:600;margin-top:12px;margin-bottom:8px}
+  
+</style>
+</head>
+<body>
+  <div class="container" role="main">
+    <header>
+      <div class="logo" aria-hidden="true">I</div>
+      <div>
+        <div style="font-weight:700">Kurs Python</div>
+        <div class="muted" style="font-size:13px">Moduł 9 - Żółw</div>
+      </div>
+      <nav style="margin-left:auto">
+        <a href="kurs.html" class="back" aria-label="Powrót do listy modułów">Powrót</a>
+      </nav>
+    </header>
+
+    <main aria-labelledby="modulTitle">
+      <h1 id="modulTitle">Moduł 9 - Żółw</h1>
+      <p class="lead"></p>
+
+      <div class="content">
+        <p class="section-title">Żółw (turtle) - wprowadzenie</p>
+
+        <pre class="note-block" aria-label="Import i inicjalizacja">
+import turtle
+x = turtle.Pen()
+
+Zacznijmy od zaimportowania żółwia.
+
+x = turtle.Pen() to będzie nasza "strzałka".
+
+Poleceniami nazwa.czynność(wartość) będziemy "rysować" po planszy.
+        </pre>
+        <figure>
+  <img src="turtle.png" alt="Okno Python Turtle Graphics z kursorem żółwia" style="max-width:100%;height:auto;border-radius:8px;">
+  <figcaption style="color:#9aa4b2;font-size:13px;margin-top:6px;">Okno Python Turtle Graphics</figcaption>
+</figure>
+        <p class="section-title">Podstawowe polecenia</p>
+        <pre class="note-block" aria-label="Podstawowe polecenia turtle">
+Przykład:
+x.forward(100)   # przesunie żółwia o 100 pikseli do przodu
+
+x.left(90)       # obróci go o 90 stopni w lewo (z jego punktu widzenia)
+                 # można też użyć x.right(270) zamiast left(90)
+
+Rysowanie kwadratu o boku 100 (bez pętli):
+
+import turtle
+
+x = turtle.Pen()
+x.forward(100)
+x.left(90)
+x.forward(100)
+x.left(90)
+x.forward(100)
+x.left(90)
+x.forward(100)
+x.left(90)
+
+Rysowanie kwadratu o boku 100 (z pętlą):
+
+import turtle
+
+x = turtle.Pen()
+for i in range(4):
+    x.forward(100)
+    x.left(90)
+
+For i in range(4): wykona instrukcję 4 razy, tyle ile kwadrat ma boków.
+        </pre>
+
+        <p class="section-title">Dodatkowe polecenia i funkcje</p>
+        <pre class="note-block" aria-label="Dodatkowe polecenia turtle">
+.reset()    # resetuje planszę i żółwia
+.clear()    # czyści samą planszę
+.backward(wartość) # cofa żółwia o podaną  wartość 
+.up()       # podnosi "ołówek" (przestaje rysować)
+.down()     # opuszcza "ołówek" (zaczyna rysować)
+.circle(r)  # rysuje okrąg o promieniu r
+        </pre>
+
+        <p class="hint">Używaj pętli i prostych funkcji transformacji (forward, left, right) do tworzenia złożonych wzorów. Eksperymentuj z kolorami, grubością linii i prędkością żółwia.</p>
+
+        <p class="section-title">Przykładowy prosty skrypt</p>
+        <pre class="note-block" aria-label="Przykładowy skrypt">
+
+import turtle
+
+turtle.forward(200)
+turtle.left(90)
+turtle.forward(200)
+turtle.left(90)
+turtle.forward(200)
+turtle.left(90)
+turtle.forward(200)
+
+turtle.mainloop()
+
+        </pre>
+
+        <p class="section-title"></p>
+        <p class="hint"></p>
+      
+      
+      
+      </div>
+
+      <section class="images" aria-label="Screenshoty i ilustracje dodatkowe" style="margin-top:18px">
+        <img src="" alt="">
+        <img src="" alt="">
+      </section>
+    </main>
+  </div>
+
+  <canvas id="matrix-bg"></canvas>
+  <script>
+    const canvas = document.getElementById('matrix-bg');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    const letters = '01<>[]{};:+=-*/Python';
+    const fontSize = 14;
+    let columns = canvas.width / fontSize;
+    const drops = Array.from({length: columns}, () => 1);
+
+    function draw() {
+      ctx.fillStyle = 'rgba(7,16,34,0.25)';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = '#7c3aed';
+      ctx.font = fontSize + 'px monospace';
+      for (let i = 0; i < drops.length; i++) {
+        const text = letters[Math.floor(Math.random() * letters.length)];
+        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
+        drops[i]++;
+      }
+    }
+    setInterval(draw, 80);
+    window.addEventListener('resize', () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      columns = canvas.width / fontSize;
+      drops.length = 0;
+      for (let i = 0; i < columns; i++) drops[i] = 1;
+    });
+  </script>
+</body>
+</html>
