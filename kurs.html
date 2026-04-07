@@ -319,8 +319,259 @@ function endGame() {
 }
 </script>
 
-  
+<script>
+// ==========================
+// PYTANIA (z uzasadnieniami)
+// ==========================
+const questions = [
+  {
+    code: "print(___)",
+    answers: ["'Hello'", "Hello", "print"],
+    correct: 0,
+    explanation: "Funkcja print wymaga tekstu w cudzysłowie. Bez cudzysłowu byłaby to zmienna."
+  },
+  {
+    code: "x = 5\nprint(___)",
+    answers: ["x", "'x'", "5+x"],
+    correct: 0,
+    explanation: "Aby wypisać wartość zmiennej, podajemy jej nazwę — bez cudzysłowu."
+  },
+  {
+    code: "for i in range(___):\n    print(i)",
+    answers: ["10", "'10'", "i"],
+    correct: 0,
+    explanation: "range() przyjmuje liczbę, nie tekst."
+  },
+  {
+    code: "if 5 > 3:\n    ___",
+    answers: ["print('OK')", "5>3", "True"],
+    correct: 0,
+    explanation: "W bloku if musi być instrukcja — print jest poprawny."
+  },
+  {
+    code: "while ___:\n    print('Loop')",
+    answers: ["True", "False", "0"],
+    correct: 0,
+    explanation: "while True tworzy pętlę nieskończoną."
+  },
+  {
+    code: "x = 3 + ___",
+    answers: ["2", "'2'", "print"],
+    correct: 0,
+    explanation: "Dodawanie działa tylko na liczbach."
+  },
+  {
+    code: "lista = [1,2,3]\nprint(lista[___])",
+    answers: ["0", "3", "-5"],
+    correct: 0,
+    explanation: "Indeks 0 zwraca pierwszy element listy."
+  },
+  {
+    code: "t = (1,2,3)\nprint(t.___)",
+    answers: ["count(1)", "add()", "push()"],
+    correct: 0,
+    explanation: "Krotki mają metodę count()."
+  },
+  {
+    code: "mapa = {'a':1}\nprint(mapa['___'])",
+    answers: ["a", "'1'", "key"],
+    correct: 0,
+    explanation: "Aby odczytać wartość, podajemy klucz."
+  },
+  {
+    code: "from turtle import *\n___()",
+    answers: ["forward", "go", "run"],
+    correct: 0,
+    explanation: "forward() jest poprawną funkcją turtle."
+  },
 
+  // DODATKOWE 20
+  {
+    code: "x = ___\nprint(type(x))",
+    answers: ["5", "'int'", "int"],
+    correct: 0,
+    explanation: "5 to liczba typu int."
+  },
+  {
+    code: "for i in ___:\n    print(i)",
+    answers: ["range(5)", "5", "'5'"],
+    correct: 0,
+    explanation: "range(5) generuje sekwencję liczb."
+  },
+  {
+    code: "if ___:\n    print('True')",
+    answers: ["3==3", "3=3", "3<>'3'"],
+    correct: 0,
+    explanation: "3==3 to poprawne porównanie."
+  },
+  {
+    code: "while ___:\n    break",
+    answers: ["True", "False", "0"],
+    correct: 0,
+    explanation: "while True wykona się przynajmniej raz."
+  },
+  {
+    code: "print( 5 ___ 2 )",
+    answers: ["+", "++", "**+"],
+    correct: 0,
+    explanation: "Poprawny operator to +."
+  },
+  {
+    code: "lista = [1,2,3]\nlista.___(4)",
+    answers: ["append", "push", "add"],
+    correct: 0,
+    explanation: "append() dodaje element do listy."
+  },
+  {
+    code: "t = (1,2,3)\nprint(___ in t)",
+    answers: ["1", "'x'", "None"],
+    correct: 0,
+    explanation: "1 znajduje się w krotce."
+  },
+  {
+    code: "d = {'x':10}\nprint(d.___)",
+    answers: ["keys()", "items", "push()"],
+    correct: 0,
+    explanation: "keys() zwraca klucze słownika."
+  },
+  {
+    code: "from turtle import *\n___(90)",
+    answers: ["right", "spin", "turn"],
+    correct: 0,
+    explanation: "right(90) obraca żółwia."
+  },
+  {
+    code: "print(len(___))",
+    answers: ["[1,2,3]", "123", "None"],
+    correct: 0,
+    explanation: "len() działa na sekwencjach."
+  }
+];
 
+// ==========================
+// LOGIKA GRY + TIMER
+// ==========================
+let current = 0;
+let score = 0;
+let selectedQuestions = [];
+let timeLeft = 0;
+let timerInterval = null;
+
+document.getElementById("startGameBtn").onclick = choosePackage;
+
+// Wybór pakietu pytań
+function choosePackage() {
+  const game = document.getElementById("gameArea");
+  game.innerHTML = `
+    <h3>Wybierz pakiet pytań:</h3>
+    <button class="answer-btn" onclick="chooseTime(10)">10 pytań</button>
+    <button class="answer-btn" onclick="chooseTime(20)">20 pytań</button>
+    <button class="answer-btn" onclick="chooseTime(30)">30 pytań</button>
+  `;
+}
+
+// Wybór czasu gry
+function chooseTime(amount) {
+  selectedQuestions = [...questions]
+    .sort(() => Math.random() - 0.5)
+    .slice(0, amount);
+
+  const game = document.getElementById("gameArea");
+  game.innerHTML = `
+    <h3>Wybierz czas gry:</h3>
+    <button class="answer-btn" onclick="startGame(${amount}, 10)">10 minut</button>
+    <button class="answer-btn" onclick="startGame(${amount}, 20)">20 minut</button>
+    <button class="answer-btn" onclick="startGame(${amount}, 30)">30 minut</button>
+    <button class="answer-btn" onclick="startGame(${amount}, 45)">45 minut</button>
+  `;
+}
+
+function startGame(amount, minutes) {
+  current = 0;
+  score = 0;
+
+  timeLeft = minutes * 60;
+  startTimer();
+
+  showQuestion();
+}
+
+function startTimer() {
+  const game = document.getElementById("python-game");
+
+  if (document.getElementById("timerBox") === null) {
+    const timerBox = document.createElement("div");
+    timerBox.id = "timerBox";
+    timerBox.style.float = "right";
+    timerBox.style.fontSize = "18px";
+    timerBox.style.fontWeight = "700";
+    timerBox.style.color = "#7c3aed";
+    game.prepend(timerBox);
+  }
+
+  timerInterval = setInterval(() => {
+    const box = document.getElementById("timerBox");
+
+    const m = Math.floor(timeLeft / 60);
+    const s = timeLeft % 60;
+
+    box.innerHTML = `⏳ ${m}:${s.toString().padStart(2, "0")}`;
+
+    timeLeft--;
+
+    if (timeLeft < 0) {
+      clearInterval(timerInterval);
+      endGame(true);
+    }
+  }, 1000);
+}
+
+function showQuestion() {
+  const q = selectedQuestions[current];
+  const game = document.getElementById("gameArea");
+
+  game.innerHTML = `
+    <pre style="background:rgba(255,255,255,0.05);padding:15px;border-radius:10px;">
+${q.code}
+    </pre>
+    ${q.answers.map((a,i)=>`<button class="answer-btn" onclick="checkAnswer(${i})">${a}</button>`).join("")}
+  `;
+}
+
+function checkAnswer(i) {
+  const q = selectedQuestions[current];
+  const game = document.getElementById("gameArea");
+
+  const correct = i === q.correct;
+
+  game.innerHTML = `
+    <h3>${correct ? "✔ Poprawnie!" : "❌ Źle!"}</h3>
+    <p><b>Wyjaśnienie:</b> ${q.explanation}</p>
+    <button class="answer-btn" onclick="nextQuestion()">Dalej</button>
+  `;
+
+  if (correct) score++;
+}
+
+function nextQuestion() {
+  current++;
+
+  if (current >= selectedQuestions.length) {
+    endGame(false);
+  } else {
+    showQuestion();
+  }
+}
+
+function endGame(timeUp) {
+  clearInterval(timerInterval);
+
+  document.getElementById("gameArea").innerHTML = `
+    <h2>${timeUp ? "⏳ Czas minął!" : "Koniec gry!"}</h2>
+    <h3>Twój wynik: ${score} / ${selectedQuestions.length}</h3>
+    <button class="answer-btn" onclick="choosePackage()">Zagraj ponownie</button>
+  `;
+}
+</script>
 </body>
 </html>
