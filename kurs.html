@@ -72,7 +72,20 @@
   box-shadow: 0 10px 26px rgba(124,58,237,0.6);
   opacity: 0.95;
 }
+.footer-box {
+  margin-top: 30px;
+  padding: 16px;
+  text-align: center;
+  color: var(--muted);
+  font-size: 13px;
 
+  border-top: 1px solid rgba(255,255,255,0.08);
+  background: rgba(255,255,255,0.02);
+  border-radius: 10px;
+
+  box-shadow: 0 6px 18px rgba(2,6,23,0.4);
+  backdrop-filter: blur(6px);
+}
 </style>
 </head>
 <body>
@@ -599,7 +612,11 @@ gameArea.addEventListener("click", (e) => {
 });
 </script>
 
-
+<footer>
+  <div class="footer-box">
+    ŹRÓDŁA: dokumentacja Python, materiały własne
+  </div>
+</footer>
 
 
 </body>
